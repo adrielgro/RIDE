@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_inbox"
+            android:icon="@drawable/ic_move_to_inbox_black_24dp"
+            android:title="Mensajes" />
+        <item
+            android:id="@+id/nav_paymethod"
+            android:icon="@drawable/ic_payment_black_24dp"
+            android:title="Método de pago" />
+        <item
+            android:id="@+id/nav_driver"
+            android:icon="@drawable/ic_directions_car_black_24dp"
+            android:title="Ofrecer viaje" />
+        <item
+            android:id="@+id/nav_history"
+            android:icon="@drawable/ic_history_black_24dp"
+            android:title="Historial" />
+        <item
+            android:id="@+id/nav_report"
+            android:icon="@drawable/ic_flag_black_24dp"
+            android:title="Reportar" />
+        <item
+            android:id="@+id/nav_config"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="Configuración" />
+        <item
+            android:id="@+id/nav_manage"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
+            android:title="Cerrar sesión" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_terms"
+                android:title="Términos &amp; Políticas" />
+        </menu>
+    </item>
+
+</menu>
