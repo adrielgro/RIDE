@@ -31,7 +31,7 @@
         android:ems="10"
         android:focusable="auto"
         android:hint="@string/app_login_email"
-        android:inputType="text"
+        android:inputType="textEmailAddress"
         android:textColor="#FFF"
         android:textColorHint="#FFF"
         app:layout_constraintStart_toStartOf="parent"

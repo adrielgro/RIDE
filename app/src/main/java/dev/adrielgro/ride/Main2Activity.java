@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -48,6 +49,12 @@ public class Main2Activity extends FragmentActivity
     TextView textViewName;
     TextView textViewEmail;
 
+
+    NavigationView navigationView;
+    View headerView;
+
+
+    private boolean doubleBackToExitPressedOnce = false;
     private GoogleMap mMap;
 
     @Override
@@ -61,8 +68,10 @@ public class Main2Activity extends FragmentActivity
 
         final DrawerLayout mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        textViewName = (TextView) findViewById(R.id.textViewName);
-        textViewEmail = (TextView) findViewById(R.id.textViewEmail);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        headerView = navigationView.getHeaderView(0);
+        textViewName = (TextView) headerView.findViewById(R.id.textViewName);
+        textViewEmail = (TextView) headerView.findViewById(R.id.textViewEmail);
 
         // Ubicar posicion en el GPS
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -70,7 +79,7 @@ public class Main2Activity extends FragmentActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Buscar posicion actual...", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Buscando posición actual...", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
@@ -127,24 +136,22 @@ public class Main2Activity extends FragmentActivity
 
 
 
-        //textViewEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail().toString());
-        //textViewEmail.setText("Test");
-        Log.i("ACTIVITY2", FirebaseAuth.getInstance().getCurrentUser().getEmail().toString());
+        textViewEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail().toString());
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         float zoomLevel = 16;
-        LatLng myPosition = new LatLng(-34, 151);
+        LatLng myPosition = new LatLng(31.820360, -116.591149);
 
         mMap = googleMap;
         mMap.addMarker(new MarkerOptions().position(myPosition).title("Tu posición"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myPosition));
-        //mMap.moveCamera(CameraUpdateFactory.zoomBy(zoomLevel));
+        mMap.moveCamera(CameraUpdateFactory.zoomTo(zoomLevel));
 
     }
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -154,6 +161,31 @@ public class Main2Activity extends FragmentActivity
 
             return;
         }
+    }*/
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            if (doubleBackToExitPressedOnce) {
+                super.onBackPressed();
+                return;
+            }
+
+            this.doubleBackToExitPressedOnce = true;
+            Toast.makeText(this, "Presiona nuevamente atrás para salir", Toast.LENGTH_SHORT).show();
+
+            new Handler().postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    doubleBackToExitPressedOnce = false;
+                }
+            }, 2000);
+        }
+
     }
 
 

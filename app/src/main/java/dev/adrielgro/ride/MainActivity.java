@@ -1,5 +1,6 @@
 package dev.adrielgro.ride;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView textViewRegister;
 
     FirebaseAuth.AuthStateListener mAuthListener;
+    ProgressDialog mProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonLogin = (Button)findViewById(R.id.buttonLogin);
         editTextEmail = (EditText)findViewById(R.id.editTextEmail);
         editTextPassword = (EditText)findViewById(R.id.editTextPassword);
-
+        mProgress = new ProgressDialog(this);
         buttonLogin.setOnClickListener(this);
         //textViewRegister.setOnClickListener(this);
 
@@ -56,7 +59,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(user != null) {
                     Log.i("FIREBASE", "Sesion iniciada: " + user.getEmail());
 
-                    //Intent intent = new Intent(context, MapsActivity.class);
                     Intent intent = new Intent(context, Main2Activity.class);
                     startActivity(intent);
                 } else {
@@ -83,13 +85,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             Log.e("FIREBASE", "Correo o contraseña vacios.");
         } else {
+            mProgress.setMessage("Iniciando sesión, espera un momento...");
+            mProgress.setCancelable(false);
+            mProgress.show();
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
+                    mProgress.dismiss();
                     if(task.isSuccessful()) {
                         Log.i("FIREBASE", "Usuario logueado correctamente.");
                     } else {
                         Log.e("FIREBASE", task.getException().getMessage().toString());
+                        Toast.makeText(context, "Usuario y/o contraseña incorrecta, intentalo de nuevo.", Toast.LENGTH_SHORT);
                     }
                 }
             });

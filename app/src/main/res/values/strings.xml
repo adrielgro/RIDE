@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">RIDE</string>
     <string name="app_logo">LOGO</string>
-    <string name="app_login_email">Correo electrónico o número</string>string>
+    <string name="app_login_email">Correo electrónico</string>string>
     <string name="app_login_password">Contraseña</string>string>
     <string name="app_login_register">¿Aún no tienes una cuenta? Registrate</string>string>
     <string name="app_login_enter">ENTRAR</string>
