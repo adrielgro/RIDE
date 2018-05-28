@@ -21,10 +21,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
-import dev.adrielgro.ride.Objects.FirebaseReferences;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     Context context = this;
@@ -59,8 +55,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(user != null) {
                     Log.i("FIREBASE", "Sesion iniciada: " + user.getEmail());
 
-                    Intent intent = new Intent(context, Main2Activity.class);
+                    Intent intent = new Intent(context, MapActivity.class);
                     startActivity(intent);
+                    finish();
                 } else {
                     Log.i("FIREBASE", "Sesion cerrada!");
                 }
@@ -68,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         };
     }
 
-    private void register(String email, String password) {
+    /*private void register(String email, String password) {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -79,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
-    }
+    }*/
 
     private void login(String email, String password) {
         if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
@@ -91,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    mProgress.dismiss();
+                    //mProgress.dismiss();
                     if(task.isSuccessful()) {
                         Log.i("FIREBASE", "Usuario logueado correctamente.");
                     } else {
@@ -114,7 +111,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 login(email, password);
                 break;
             case R.id.textViewRegister:
-                register(email, password);
+                Intent intent = new Intent(context, RegisterActivity.class);
+                startActivity(intent);
                 break;
         }
     }
